@@ -1,0 +1,84 @@
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        roman_map = {'I': 1, 'V': 5, 'X': 10, 'L': 50,
+                     'C': 100, 'D': 500, 'M': 1000}
+        total = 0
+        i = 0
+        while i < len(s):
+            if i + 1 < len(s) and roman_map[s[i]] < roman_map[s[i + 1]]:
+                total += roman_map[s[i + 1]] - roman_map[s[i]]
+                i += 2  
+            else:
+                total += roman_map[s[i]]
+                i += 1    
+        return total
+----------------------------------------------------------------------------------------
+Roman Numerals to Integer / 罗马数字转整数 🏛️➡️🔢
+思路 / Idea
+
+罗马数字由 I, V, X, L, C, D, M 组成，每个对应一个整数。
+Roman numerals consist of I, V, X, L, C, D, M, each with a specific value.
+
+从左到右遍历，每个字符加到总数里。
+Traverse the string from left to right and add values to total.
+
+减法规则 / Subtraction rule：
+当小值在大值前面时，要用大值减小值。
+If a smaller numeral comes before a larger numeral, subtract the smaller from the larger.
+
+
+映射表 / Mapping
+roman_map = {'I': 1, 'V': 5, 'X': 10, 'L': 50,
+             'C': 100, 'D': 500, 'M': 1000}
+
+就像一个“价格表 / price list”，方便查每个罗马字符对应的数值。
+
+3. 处理逻辑 / Logic
+
+初始化：
+
+total = 0
+i = 0
+total → 钱包里的总额 / total amount
+i → 当前字符的索引 / index of current character
+遍历字符串：
+while i < len(s):
+
+从左到右逐个检查 / loop from left to right
+
+检查减法情况：
+
+if i + 1 < len(s) and roman_map[s[i]] < roman_map[s[i + 1]]:
+    total += roman_map[s[i + 1]] - roman_map[s[i]]
+    i += 2
+
+
+小硬币在大硬币前面 → 抵扣 / smaller numeral before bigger → subtraction
+
+一次处理两个字符 / process two characters at once
+
+否则直接加：
+
+else:
+    total += roman_map[s[i]]
+    i += 1
+
+
+普通情况 → 加到总额 / normal case → add to total
+
+返回总额：
+
+return total
+钱包里的钱就是答案 / total money in wallet is the result
+-------------------------------------------------------------------------------------------------------------------
+Input: s = "III"
+Output: 3
+Explanation: III = 3.
+
+Input: s = "LVIII"
+Output: 58
+Explanation: L = 50, V= 5, III = 3.
+
+Input: s = "MCMXCIV"
+Output: 1994
+Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
